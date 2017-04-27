@@ -13,8 +13,6 @@ output:
 
 The number of publications containing NONMEM was retrieved from the Pubmed search at 2017-04-27 07:30 KST by `Download CSV` functionality and the CSV file was processed by R 3.4.0 [@R-base] and ggplot2 [@R-ggplot2].
 
-![Pubmed search](pubmedsearch.png)
-
 # Results
 
 ## Plot
@@ -23,8 +21,10 @@ Results from a PubMed search for the term, NONMEM were plotted against the year 
 
 ```{r setup, message = FALSE, results = 'hide'}
 library(knitr)
-library(ggplot2)
+library(tibble)
 library(dplyr)
+library(tidyr)
+library(ggplot2)
 ```
 
 ```{r fig.cap = "Publications utilizing NONMEM"}
