@@ -1,8 +1,8 @@
 ---
 title: "Pubmed Search Results of NONMEM"
 author: "Sungpil Han"
-date: 2017-04-27
-bibliography: "packages.bib"
+date: "`r Sys.Date()`"
+bibliography: "bib/packages.bib"
 output:
   html_document:
     toc: true
@@ -12,7 +12,7 @@ editor_options:
 
 # Introduction and Methods
 
-The number of publications containing NONMEM was retrieved from the Pubmed search at 2017-04-27 14:30 KST through [Medline (PubMed) trend website](http://dan.corlan.net/medline-trend.html) and the fetched data was processed by R 3.4.0 [@R-base] and ggplot2 [@R-ggplot2].
+The number of publications containing NONMEM was retrieved from the Pubmed search at 2017-04-27 14:30 KST through [Medline (PubMed) trend website](http://dan.corlan.net/medline-trend.html) and the fetched data was processed by R 3.4.3 [@R-base] and ggplot2 [@R-ggplot2].
 
 ![Medline trend](medlinetrend.png)
 
@@ -21,20 +21,19 @@ The number of publications containing NONMEM was retrieved from the Pubmed searc
 Results from a PubMed search for the term, NONMEM and WinNonLin were plotted against the year the publication appeared.
 
 ```{r setup, message = FALSE, results = 'hide'}
-library(knitr)
-library(ggplot2)
-library(dplyr)
-library(tibble)
-library(tidyr)
+library(tidyverse)
+refresh <- TRUE
 ```
 
-```{r eval = FALSE}
+```{r eval = refresh}
 Pubmed <- list()
 
 # Read Medline Trend data
 Pubmed$winnonlin <- readLines("http://dan.corlan.net/cgi-bin/medline-trend?Q=winnonlin")
 Pubmed$nonmem <- readLines("http://dan.corlan.net/cgi-bin/medline-trend?Q=nonmem")
+```
 
+```{r}
 # Data Prep
 PubmedPrep <- function(x) data.frame(raw = Pubmed[[x]]) %>%
     filter(!grepl("Medline|Number|PRE", raw)) %>%
@@ -53,12 +52,12 @@ RawData <- Dataset %>%
     spread("term", value = "number")
 ```
 
-```{r eval = FALSE, include = FALSE}
-save(Dataset, RawData, file = "~/shanmdphd/pubmed/Dataset.Rdata")
+```{r, eval = refresh, include = FALSE}
+save(Dataset, RawData, file = "~/shanmdphd/nonmem-pubmed/data/dataset.Rdata")
 ```
 
 ```{r include = FALSE}
-load("~/shanmdphd/pubmed/Dataset.Rdata")
+load("~/shanmdphd/nonmem-pubmed/data/dataset.Rdata")
 ```
 
 ## Bar Plots
@@ -130,6 +129,6 @@ The number of publications utilizing NONMEM or WinNonLin tends to increase. The 
 # References
 
 ```{r include = FALSE}
-knitr::write_bib(file = "packages.bib")
+knitr::write_bib(file = "bib/packages.bib")
 ```
 
